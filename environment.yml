@@ -1,0 +1,27 @@
+name: bondra
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - fastqc
+  - multiqc
+  - fastp
+
+  - bwa
+  - bwa-mem2
+  - samtools
+
+  - gatk4
+  - picard
+  - bcftools
+
+  - snpeff
+  - snpsift
+
+  - tabix
+  - bedtools
+  - python>=3.10
+  - pip
