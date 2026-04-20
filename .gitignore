@@ -22,6 +22,18 @@
 project/raw_data/*
 !project/raw_data/.gitkeep
 
+# QC outputs (regenerovatelne z raw dat)
+project/qc/fastqc/*
+project/qc/multiqc/*
+!project/qc/fastqc/.gitkeep
+!project/qc/multiqc/.gitkeep
+
+# FastQC / MultiQC generovane subory (pre istotu aj globalne)
+*_fastqc.zip
+*_fastqc.html
+multiqc_data/
+multiqc_report.html
+
 # Windows / misc
 *.Zone.Identifier
 Thumbs.db
