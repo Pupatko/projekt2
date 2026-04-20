@@ -1,0 +1,28 @@
+# raw sequencing / data
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.fasta
+*.fa
+*.fasta.gz
+*.fa.gz
+*.bam
+*.sam
+*.cram
+*.bai
+*.crai
+*.vcf
+*.vcf.gz
+*.bcf
+*.tbi
+*.idx
+
+# raw data folder
+project/raw_data/*
+!project/raw_data/.gitkeep
+
+# Windows / misc
+*.Zone.Identifier
+Thumbs.db
+.DS_Store
