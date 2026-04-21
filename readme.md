@@ -29,4 +29,32 @@ multiqc project/qc/fastqc/ -o project/qc/multiqc/
 
 vystup: `project/qc/multiqc/multiqc_report.html` (tu si pozrieme kvalitu readov a podla toho sa rozhodneme ci treba trimming)
 
-=> kvalita je insane good a mam pocit , ze sme ani nemali robit QC , ale aspon sme si to presli :>
+=> kvalita je insane good a mam pocit , ze sme ani nemali robit QC (mali) , ale aspon sme si to presli :>
+
+
+KROK 1.5: (ak nemas ref. genom stiahnuty a naindexovany (trva to milion hodin)):
+- stiahneme referencny genom:
+```
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz -P /home/USER_NAME/PROJECT_NAME/
+```
+- rozbalime:
+```
+gunzip /home/USER_NAME/PROJECT_NAME/hg38.fa.gz
+```
+- a naindexujeme >.<
+```
+bwa index /home/USER_NAME/PROJECT_NAME/hg38.fa
+```
+
+
+KROK 2: zarovnanie read-ov na referencny genom (BWA)
+- spustime prikaz na zarovnanie Tumoru
+```
+bwa mem -t 4 \
+  -R "@RG\tID:Tumor\tSM:Tumor\tPL:ILLUMINA\tLB:lib1" \
+  /home/USER_NAME/PATH_TO_REFERENCE_GENOME/hg38.fa \
+  /home/USER_NAME/PROJECT_NAME/project/raw_data/S11.T_R1.fastq.gz \
+  /home/USER_NAME/PROJECT_NAME/project/raw_data/S11.T_R2.fastq.gz | \
+  samtools sort -o /home//USER_NAME/PROJECT_NAME/project/aligned/Tumor.bam
+```
+
