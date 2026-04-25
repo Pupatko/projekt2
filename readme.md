@@ -48,7 +48,7 @@ bwa index /home/USER_NAME/PROJECT_NAME/hg38.fa
 
 
 KROK 2: zarovnanie read-ov na referencny genom (BWA)
-- spustime prikaz na zarovnanie Tumoru
+- spustime prikaz na zarovnanie Tumor vzorky
 ```
 bwa mem -t 4 \
   -R "@RG\tID:Tumor\tSM:Tumor\tPL:ILLUMINA\tLB:lib1" \
@@ -56,5 +56,25 @@ bwa mem -t 4 \
   /home/USER_NAME/PROJECT_NAME/project/raw_data/S11.T_R1.fastq.gz \
   /home/USER_NAME/PROJECT_NAME/project/raw_data/S11.T_R2.fastq.gz | \
   samtools sort -o /home//USER_NAME/PROJECT_NAME/project/aligned/Tumor.bam
+```
+
+- naindexujeme Tumor BAM (potrebne pre random access napr. v IGV / GATK)
+```
+samtools index /home/USER_NAME/PROJECT_NAME/project/aligned/Tumor.bam
+```
+
+- to iste spravime aj pre Control vzorku - lisi sa len Read Group (SM:Control) a vstupne FASTQ subory (S11.C_R1/R2). Mutect2 podla SM rozlisuje ktora vzorka je tumor a ktora normal, takze SM musi byt iny:
+```
+bwa mem -t 4 \
+  -R "@RG\tID:Control\tSM:Control\tPL:ILLUMINA\tLB:lib1" \
+  /home/USER_NAME/PATH_TO_REFERENCE_GENOME/hg38.fa \
+  /home/USER_NAME/PROJECT_NAME/project/raw_data/S11.C_R1.fastq.gz \
+  /home/USER_NAME/PROJECT_NAME/project/raw_data/S11.C_R2.fastq.gz | \
+  samtools sort -o /home/USER_NAME/PROJECT_NAME/project/aligned/Control.bam
+```
+
+- a indexujeme Control BAM
+```
+samtools index /home/USER_NAME/PROJECT_NAME/project/aligned/Control.bam
 ```
 
