@@ -38,3 +38,6 @@ multiqc_report.html
 *.Zone.Identifier
 Thumbs.db
 .DS_Store
+
+# references\hg38
+project/references/hg38/*
