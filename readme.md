@@ -78,13 +78,13 @@ bwa mem -t 4 \
 samtools index /home/USER_NAME/PROJECT_NAME/project/aligned/Control.bam
 ```
 
-KROK 3 Postprocessing:
+KROK 3: Postprocessing:
 - markneme duplikaty, aby nam nezavadzali pri variant callingu
 ```
 gatk MarkDuplicates \
   -I /home/USER_NAME/PROJECT_NAME/project/aligned/Tumor.bam \
-  -O /home/USER_NAME/PROJECT_NAME/postprocessing/Tumor.markdup.bam \
-  -M /home/USER_NAME/PROJECT_NAME/postprocessing/Tumor.markdup.metrics
+  -O /home/USER_NAME/PROJECT_NAME/project/postprocessing/Tumor.markdup.bam \
+  -M /home/USER_NAME/PROJECT_NAME/project/postprocessing/Tumor.markdup.metrics
 
 gatk MarkDuplicates \
   -I /home/USER_NAME/PROJECT_NAME/aligned/Control.bam \
@@ -92,4 +92,25 @@ gatk MarkDuplicates \
   -M /home/USER_NAME/PROJECT_NAME/postprocessing/Control.markdup.metrics
 ```
 
+- BQSR (skipujeme, nepotrebne)
 
+KROK 4: postalignment QC
+- pre stats
+```
+samtools flagstat /home/bondra/projekt2/project/postprocessing/Tumor.markdup.bam > \
+  /home/bondra/projekt2/project/qc/Tumor.flagstat.txt
+
+samtools flagstat /home/bondra/projekt2/project/postprocessing/Control.markdup.bam > \
+  /home/bondra/projekt2/project/qc/Control.flagstat.txt
+```
+
+- pre coverage
+```
+samtools coverage \
+  /home/bondra/projekt2/project/postprocessing/Tumor.markdup.bam \
+  > /home/bondra/projekt2/project/qc/Tumor.coverage.txt
+
+samtools coverage \
+  /home/bondra/projekt2/project/postprocessing/Control.markdup.bam \
+  > /home/bondra/projekt2/project/qc/Control.coverage.txt
+```
