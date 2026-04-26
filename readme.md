@@ -114,3 +114,42 @@ samtools coverage \
   /home/bondra/projekt2/project/postprocessing/Control.markdup.bam \
   > /home/bondra/projekt2/project/qc/Control.coverage.txt
 ```
+
+KROK 5: Variant calling
+
+- chybali nam nejake subory, takze:
+```
+samtools faidx hg38.fa
+gatk CreateSequenceDictionary -R hg38.fa
+```
+
+- potom mozeme spustit:
+```
+gatk Mutect2 \
+  -R /home/bondra/projekt2/project/references/hg38/hg38.fa \
+  -I /home/bondra/projekt2/project/postprocessing/Tumor.markdup.bam \
+  -I /home/bondra/projekt2/project/postprocessing/Control.markdup.bam \
+  --tumor-sample Tumor \
+  --normal-sample Control \
+  -O /home/bondra/projekt2/project/variants/Tumor_Control.vcf.gz \
+  -L chr22
+```
+
+- odfiltrujeme vysledky od FP
+```
+gatk FilterMutectCalls \
+  -R /home/bondra/projekt2/project/references/hg38/hg38.fa \
+  -V /home/bondra/projekt2/project/variants/Tumor_Control.vcf.gz \
+  -O /home/bondra/projekt2/project/variants/Tumor_Control.filtered.vcf.gz
+```
+
+DACO:
+- zistujeme pocet variantov a potom si ich aj vypiseme a skusime ich interpretovat:
+```
+bcftools view -f PASS /home/bondra/projekt2/project/variants/Tumor_Control.filtered.vcf.gz | grep -v "^#" | wc -l
+```
+```
+bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\n' -i 'FILTER="PASS"'   /home/bondra/projekt2/project/variants/Tumor_Control.filtered.vcf.gz
+```
+
+KROK 6: Anotacia (asi pdf)
