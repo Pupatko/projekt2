@@ -78,3 +78,18 @@ bwa mem -t 4 \
 samtools index /home/USER_NAME/PROJECT_NAME/project/aligned/Control.bam
 ```
 
+KROK 3 Postprocessing:
+- markneme duplikaty, aby nam nezavadzali pri variant callingu
+```
+gatk MarkDuplicates \
+  -I /home/USER_NAME/PROJECT_NAME/project/aligned/Tumor.bam \
+  -O /home/USER_NAME/PROJECT_NAME/postprocessing/Tumor.markdup.bam \
+  -M /home/USER_NAME/PROJECT_NAME/postprocessing/Tumor.markdup.metrics
+
+gatk MarkDuplicates \
+  -I /home/USER_NAME/PROJECT_NAME/aligned/Control.bam \
+  -O /home/USER_NAME/PROJECT_NAME/postprocessing/Control.markdup.bam \
+  -M /home/USER_NAME/PROJECT_NAME/postprocessing/Control.markdup.metrics
+```
+
+
